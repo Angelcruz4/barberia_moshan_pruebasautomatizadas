@@ -279,4 +279,11 @@ La aplicación estará disponible normalmente en:
 http://127.0.0.1:8000
 ```
 Abrir la dirección desde un navegador para acceder a Barbería Moshan.
+
+## Pruebas automatizadas del inicio de sesión
+Con las dependencias de Composer instaladas, ejecutar:
+```bash
+php artisan test tests/Feature/LoginVistaIntegracionTest.php tests/Feature/LoginVistaValidacionesTest.php
+```
+Estas pruebas cubren exclusivamente la vista `auth.login` y los campos `nombre_usuario`, `password` y `remember`. GitHub Actions ejecuta las pruebas en cada `push` y `pull_request`, sin requerir credenciales de servicios externos.
 ```

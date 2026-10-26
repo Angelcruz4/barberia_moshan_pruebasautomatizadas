@@ -1,0 +1,42 @@
+name: Pruebas de inicio de sesión - Barbería Moshan
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: testing
+      CACHE_STORE: array
+      MAIL_MAILER: array
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: array
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: bcmath, curl, dom, fileinfo, gd, intl, mbstring, openssl, pdo_sqlite, sqlite3, xml, zip
+          tools: composer:v2
+          coverage: none
+
+      - name: Instalar dependencias de Composer
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Verificar sintaxis
+        run: |
+          php -l tests/TestCase.php
+          php -l tests/Feature/LoginVistaIntegracionTest.php
+          php -l tests/Feature/LoginVistaValidacionesTest.php
+
+      - name: Ejecutar pruebas de la vista de inicio de sesión
+        run: php artisan test tests/Feature/LoginVistaIntegracionTest.php tests/Feature/LoginVistaValidacionesTest.php
