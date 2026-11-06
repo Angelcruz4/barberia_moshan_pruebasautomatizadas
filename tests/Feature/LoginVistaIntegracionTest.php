@@ -11,7 +11,7 @@ class LoginVistaIntegracionTest extends TestCase
         $this->get('/login')
             ->assertOk()
             ->assertSee('action="'.route('login').'"', false)
-            ->assertSee('name="usuario"', false)
+            ->assertSee('name="nombre_usuario"', false)
             ->assertSee('name="password"', false)
             ->assertSee('name="remember"', false);
     }
